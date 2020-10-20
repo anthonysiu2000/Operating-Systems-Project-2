@@ -18,6 +18,7 @@
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ucontext.h>
 
 typedef uint mypthread_t;
 
@@ -34,9 +35,12 @@ typedef struct threadControlBlock {
 	// YOUR CODE HERE
 	int id;
     int p_level;
-    ucontext_t context;
+    ucontext_t *context;
     void * retval;
 } tcb;
+
+
+
 
 /* mutex struct definition */
 typedef struct mypthread_mutex_t {
@@ -51,6 +55,15 @@ typedef struct mypthread_mutex_t {
 // Feel free to add your own auxiliary data structures (linked list or queue etc...)
 
 // YOUR CODE HERE
+
+
+
+
+
+
+
+
+
 
 
 /* Function Declarations: */

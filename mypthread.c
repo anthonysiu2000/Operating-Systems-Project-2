@@ -27,7 +27,7 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 	       .ss_flags=0};
        makecontext(&(t->context), thread_runner, 2, function, arg);
        //swap
-       *id = t->id; //thread id
+       int*id = t->id; //thread id
        
 
 
@@ -82,7 +82,7 @@ int mypthread_mutex_init(mypthread_mutex_t *mutex,
 	//initialize data structures for this mutex
 	
 	// YOUR CODE HERE
-	*mutex = (my_pthread_mutex_t) {.id = nextMutexId++, .locked=0};
+	*mutex = (mypthread_mutex_t) {.id = nextMutexId++, .locked=0};
 	return 0;
 };
 
