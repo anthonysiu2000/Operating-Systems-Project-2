@@ -1,6 +1,6 @@
 // File:	mypthread.c
 
-// List all group member's name:
+// List all group member's name: Jonathan Konopka, Anthony Siu
 // username of iLab:
 // iLab Server:
 
@@ -8,8 +8,8 @@
 
 // INITAILIZE ALL YOUR VARIABLES HERE
 // YOUR CODE HERE
-
-
+int in_library = 0; //for scheduling?
+int nextMutex = 0; //id of next mutex creation
 /* create a new thread */
 int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
                       void *(*function)(void*), void * arg) {
@@ -18,6 +18,18 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
        // allocate space of stack for this thread to run
        // after everything is all set, push this thread int
        // YOUR CODE HERE
+     	in_library=1;
+       //create new thread
+       tcb*t = tcb_init();
+       getcontext(&(t->context));
+       t->context.uc_link = &(old->context);
+       t->context.uc_stack = (stack_t) {.ss_sp = malloc(MEM), .ss_size = MEM,
+	       .ss_flags=0};
+       makecontext(&(t->context), thread_runner, 2, function, arg);
+       //swap
+       *id = t->id; //thread id
+       
+
 
     return 0;
 };
@@ -30,6 +42,8 @@ int mypthread_yield() {
 	// wwitch from thread context to scheduler context
 
 	// YOUR CODE HERE
+
+	//need timer interrupt
 	return 0;
 };
 
@@ -38,6 +52,12 @@ void mypthread_exit(void *value_ptr) {
 	// Deallocated any dynamic memory created when starting this thread
 
 	// YOUR CODE HERE
+	
+	in_library=1;
+
+	if (value_ptr !=NULL ) {
+		//save return value of thread 
+	}
 };
 
 
@@ -48,6 +68,11 @@ int mypthread_join(mypthread_t thread, void **value_ptr) {
 	// de-allocate any dynamic memory created by the joining thread
 
 	// YOUR CODE HERE
+	in_library = 1;
+	if (value_ptr != NULL) {
+		//pass back return value of thread
+		*value_ptr = thread->retval; 
+	}
 	return 0;
 };
 
@@ -55,8 +80,9 @@ int mypthread_join(mypthread_t thread, void **value_ptr) {
 int mypthread_mutex_init(mypthread_mutex_t *mutex,
                           const pthread_mutexattr_t *mutexattr) {
 	//initialize data structures for this mutex
-
+	
 	// YOUR CODE HERE
+	*mutex = (my_pthread_mutex_t) {.id = nextMutexId++, .locked=0};
 	return 0;
 };
 
@@ -66,7 +92,7 @@ int mypthread_mutex_lock(mypthread_mutex_t *mutex) {
         // if the mutex is acquired successfully, enter the critical section
         // if acquiring mutex fails, push current thread into block list and //
         // context switch to the scheduler thread
-
+	in_library =1;
         // YOUR CODE HERE
         return 0;
 };

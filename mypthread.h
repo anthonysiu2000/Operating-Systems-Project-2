@@ -1,6 +1,6 @@
 // File:	mypthread_t.h
 
-// List all group member's name:
+// List all group member's name:  Jonathan Konopka, Anthony Siu 
 // username of iLab:
 // iLab Server:
 
@@ -26,18 +26,25 @@ typedef struct threadControlBlock {
 	// thread Id
 	// thread status
 	// thread context
+	
 	// thread stack
 	// thread priority
 	// And more ...
 
 	// YOUR CODE HERE
+	int id;
+    int p_level;
+    ucontext_t context;
+    void * retval;
 } tcb;
 
 /* mutex struct definition */
 typedef struct mypthread_mutex_t {
 	/* add something here */
-
+	
 	// YOUR CODE HERE
+	int id;
+    int locked; // 0 = unlocked, 1 = locked
 } mypthread_mutex_t;
 
 /* define your data structures here: */
