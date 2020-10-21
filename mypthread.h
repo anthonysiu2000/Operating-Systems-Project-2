@@ -34,8 +34,8 @@ typedef struct threadControlBlock {
 	ucontext_t context;
 	// thread stack
 	// thread priority
-	int priority; // smaller number = higher priority
 	// And more ...
+	int elapsed; //indicates how many time quantum has expired since the time thread was scheduled
 	
     int p_level;
     void * retval;
