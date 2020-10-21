@@ -153,8 +153,14 @@ static void sched_stcf() {
 	// (feel free to modify arguments and return types)
 
 	// YOUR CODE HERE
+	struct sigaction new_action
+	new_action.sa_handler = alarm_handler;
+	sigaction(SIGALRM, $new_action, NULL)
 }
 
 // Feel free to add any other functions you need
 
 // YOUR CODE HERE
+static void alarm_handler(int signum) {
+	
+}
