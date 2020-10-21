@@ -25,17 +25,18 @@ typedef uint mypthread_t;
 typedef struct threadControlBlock {
 	/* add important states in a thread control block */
 	// thread Id
+	int id;
 	// thread status
+	int status;	// 0 = running, 1 = ready, 2 = blocked
 	// thread context
-	
+	ucontext_t context;
 	// thread stack
 	// thread priority
 	// And more ...
 
 	// YOUR CODE HERE
-	int id;
+	
     int p_level;
-    ucontext_t *context;
     void * retval;
 } tcb;
 

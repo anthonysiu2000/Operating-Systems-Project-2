@@ -9,7 +9,7 @@
 // INITAILIZE ALL YOUR VARIABLES HERE
 // YOUR CODE HERE
 int in_library = 0; //for scheduling?
-int nextMutex = 0; //id of next mutex creation
+int nextMutexId = 0; //id of next mutex creation
 /* create a new thread */
 int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
                       void *(*function)(void*), void * arg) {
@@ -20,7 +20,8 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
        // YOUR CODE HERE
      	in_library=1;
        //create new thread
-       tcb*t = tcb_init();
+       struct threadControlBlock *t = malloc(sizeof(*t));
+	   t->id = *thread;
        getcontext(&(t->context));
        t->context.uc_link = &(old->context);
        t->context.uc_stack = (stack_t) {.ss_sp = malloc(MEM), .ss_size = MEM,
@@ -114,6 +115,18 @@ int mypthread_mutex_destroy(mypthread_mutex_t *mutex) {
 
 	return 0;
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* scheduler */
 static void schedule() {
