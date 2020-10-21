@@ -19,10 +19,22 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
        // after everything is all set, push this thread int
        // YOUR CODE HERE
      	in_library=1;
+
+
+
        //create new thread
        struct threadControlBlock *t = malloc(sizeof(*t));
 	   t->id = *thread;
-       getcontext(&(t->context));
+	   t->status = 0;
+
+
+
+
+
+
+
+       
+	   getcontext(&(t->context));
        t->context.uc_link = &(old->context);
        t->context.uc_stack = (stack_t) {.ss_sp = malloc(MEM), .ss_size = MEM,
 	       .ss_flags=0};
@@ -43,7 +55,6 @@ int mypthread_yield() {
 	// wwitch from thread context to scheduler context
 
 	// YOUR CODE HERE
-
 	//need timer interrupt
 	return 0;
 };
@@ -72,7 +83,7 @@ int mypthread_join(mypthread_t thread, void **value_ptr) {
 	in_library = 1;
 	if (value_ptr != NULL) {
 		//pass back return value of thread
-		*value_ptr = thread->retval; 
+		// *value_ptr = thread->retval; 
 	}
 	return 0;
 };

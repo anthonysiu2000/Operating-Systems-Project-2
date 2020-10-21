@@ -32,9 +32,8 @@ typedef struct threadControlBlock {
 	ucontext_t context;
 	// thread stack
 	// thread priority
+	int priority; // smaller number = higher priority
 	// And more ...
-
-	// YOUR CODE HERE
 	
     int p_level;
     void * retval;
