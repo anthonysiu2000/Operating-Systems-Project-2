@@ -10,37 +10,35 @@
 // YOUR CODE HERE
 int in_library = 0; //for scheduling?
 int nextMutexId = 0; //id of next mutex creation
+
+
 /* create a new thread */
 int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
                       void *(*function)(void*), void * arg) {
-       // create Thread Control Block
-       // create and initialize the context of this thread
-       // allocate space of stack for this thread to run
-       // after everything is all set, push this thread int
-       // YOUR CODE HERE
-     	in_library=1;
+       
+    	in_library=1;
+
+    	// create Thread Control Block
+    	struct threadControlBlock *t = malloc(sizeof(*t));
+		t->id = *thread;
+		t->status = 0;
 
 
-
-       //create new thread
-       struct threadControlBlock *t = malloc(sizeof(*t));
-	   t->id = *thread;
-	   t->status = 0;
-
-
-
-
-
-
+    	// create and initialize the context of this thread
+		getcontext(&(t->context));
+    	/*t->context.uc_link = &(old->context);
+		t->context.uc_stack = (stack_t) {.ss_sp = malloc(MEM), .ss_size = MEM,
+	       .ss_flags=0};
+		*/
+    	makecontext(&(t->context), function, 2, function, arg);
 
        
-	   getcontext(&(t->context));
-       t->context.uc_link = &(old->context);
-       t->context.uc_stack = (stack_t) {.ss_sp = malloc(MEM), .ss_size = MEM,
-	       .ss_flags=0};
-       makecontext(&(t->context), thread_runner, 2, function, arg);
-       //swap
-       int*id = t->id; //thread id
+    	// allocate space of stack for this thread to run
+
+
+
+
+    	// after everything is all set, push this thread int
        
 
 
