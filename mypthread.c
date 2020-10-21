@@ -139,40 +139,17 @@ int mypthread_mutex_destroy(mypthread_mutex_t *mutex) {
 
 /* scheduler */
 static void schedule() {
-	// Every time when timer interrup happens, your thread library
+	// Every time when timer interrupt happens, your thread library
 	// should be contexted switched from thread context to this
 	// schedule function
-
-	// Invoke different actual scheduling algorithms
-	// according to policy (STCF or MLFQ)
-
-	// if (sched == STCF)
-	//		sched_stcf();
-	// else if (sched == MLFQ)
-	// 		sched_mlfq();
-
+	
 	// YOUR CODE HERE
-
-// schedule policy
-#ifndef MLFQ
-	// Choose STCF
-#else
-	// Choose MLFQ
-#endif
-
+	sched_stcf();
 }
 
 /* Preemptive SJF (STCF) scheduling algorithm */
 static void sched_stcf() {
 	// Your own implementation of STCF
-	// (feel free to modify arguments and return types)
-
-	// YOUR CODE HERE
-}
-
-/* Preemptive MLFQ scheduling algorithm */
-static void sched_mlfq() {
-	// Your own implementation of MLFQ
 	// (feel free to modify arguments and return types)
 
 	// YOUR CODE HERE

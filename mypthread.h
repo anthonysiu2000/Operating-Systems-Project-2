@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ucontext.h>
+#include <sys/time.h>
+#include <signal.h> 
 
 typedef uint mypthread_t;
 
@@ -27,7 +29,7 @@ typedef struct threadControlBlock {
 	// thread Id
 	int id;
 	// thread status
-	int status;	// 0 = running, 1 = ready, 2 = blocked
+	int status;	// 0 = running, 1 = ready, 2 = blocked, 3 = scheduled
 	// thread context
 	ucontext_t context;
 	// thread stack
