@@ -30,7 +30,7 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 		t->context.uc_stack = (stack_t) {.ss_sp = malloc(MEM), .ss_size = MEM,
 	       .ss_flags=0};
 		*/
-    	makecontext(&(t->context), &function, 2, function, arg);
+    	makecontext(&(t->context), function, 2, function, arg);
 
        
     	// allocate space of stack for this thread to run
