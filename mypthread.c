@@ -11,6 +11,10 @@
 int in_library = 0; //for scheduling?
 int nextMutexId = 0; //id of next mutex creation
 
+//Global Variable?
+//Do we need a Queue or Linked list or Arraylist of TCBs in order to access TCBs' contexts?
+//How does deallocation of Queues and Linked lists work? 
+
 
 /* create a new thread */
 int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
