@@ -30,7 +30,7 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 		t->context.uc_stack = (stack_t) {.ss_sp = malloc(MEM), .ss_size = MEM,
 	       .ss_flags=0};
 		*/
-    	makecontext(&(t->context), function, 2, function, arg);
+    	makecontext(&(t->context), &function, 2, function, arg);
 
        
     	// allocate space of stack for this thread to run
@@ -113,7 +113,7 @@ int mypthread_mutex_lock(mypthread_mutex_t *mutex) {
         // if the mutex is acquired successfully, enter the critical section
         // if acquiring mutex fails, push current thread into block list and //
         // context switch to the scheduler thread
-	in_library =1;
+	in_library = 1;
         // YOUR CODE HERE
         return 0;
 };
@@ -142,9 +142,23 @@ int mypthread_mutex_destroy(mypthread_mutex_t *mutex) {
 
 
 
+/*code to be run when SIGALRM is passed*/
+static void alarm_handler(int signum) {
+	
+}
 
 
 
+/* Preemptive SJF (STCF) scheduling algorithm */
+static void sched_stcf() {
+	// Your own implementation of STCF
+	// (feel free to modify arguments and return types)
+
+	// YOUR CODE HERE
+	struct sigaction new_action;
+	new_action.sa_handler = alarm_handler;
+	sigaction(SIGALRM, &new_action, NULL);
+}
 
 
 
@@ -158,20 +172,8 @@ static void schedule() {
 	sched_stcf();
 }
 
-/* Preemptive SJF (STCF) scheduling algorithm */
-static void sched_stcf() {
-	// Your own implementation of STCF
-	// (feel free to modify arguments and return types)
 
-	// YOUR CODE HERE
-	struct sigaction new_action
-	new_action.sa_handler = alarm_handler;
-	sigaction(SIGALRM, $new_action, NULL);
-}
 
-// Feel free to add any other functions you need
 
-// YOUR CODE HERE
-static void alarm_handler(int signum) {
-	
-}
+
+
