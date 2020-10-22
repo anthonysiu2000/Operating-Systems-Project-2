@@ -86,6 +86,17 @@ int mypthread_join(mypthread_t thread, void **value_ptr) {
 	return 0;
 };
 
+
+
+
+
+
+
+
+
+
+
+
 /* initialize the mutex lock */
 int mypthread_mutex_init(mypthread_mutex_t *mutex,
                           const pthread_mutexattr_t *mutexattr) {
@@ -155,7 +166,7 @@ static void sched_stcf() {
 	// YOUR CODE HERE
 	struct sigaction new_action
 	new_action.sa_handler = alarm_handler;
-	sigaction(SIGALRM, $new_action, NULL)
+	sigaction(SIGALRM, $new_action, NULL);
 }
 
 // Feel free to add any other functions you need

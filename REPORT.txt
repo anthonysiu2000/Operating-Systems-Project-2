@@ -2,6 +2,15 @@ Names/netid: Jonathan Konopka (jk1549), Anthony Siu (ays53)
 
 
 Logic:
+    Thread Functions:
+
+    Scheduler:
+            One of the arguments in settimer()/gettimer() involves the variable "which", which
+        can have the value ITIMER_REAL, ITIMER_VIRTUAL, or ITIMER_PROF. Each of these values
+        define when the timer decrements: in real time, when the process is executing, and
+        when the process and system are executing. Because we want the time taken by the 
+        thread for one quantum time, we will use the ITIMER_VIRTUAL value to decrement time 
+        only when inside a thread.
 
 
 Benchmark:
