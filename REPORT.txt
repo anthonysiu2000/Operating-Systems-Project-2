@@ -13,8 +13,7 @@ Logic:
         and makecontext functions.
             After creating and allocating the thread control block, we will add the tcb onto
         the scheduler Linked List of tcbs. The scheduler will decide which thread to run and for how
-        long. We do this by inserting a tcb Node into the scheduler Linked List. We will then call the 
-        schedule() function.
+        long. We do this by inserting a tcb Node into the scheduler Linked List. 
 
         myThreadYield:
 
