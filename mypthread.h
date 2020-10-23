@@ -181,6 +181,9 @@ int mypthread_mutex_unlock(mypthread_mutex_t *mutex);
 /* destroy the mutex */
 int mypthread_mutex_destroy(mypthread_mutex_t *mutex);
 
+/* helper for runqueque */
+void thread_runner(void *(*function)(void*), void *arg);
+
 #ifdef USE_MYTHREAD
 #define pthread_t mypthread_t
 #define pthread_mutex_t mypthread_mutex_t

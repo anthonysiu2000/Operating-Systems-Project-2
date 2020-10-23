@@ -15,6 +15,18 @@ int nextMutexId = 0; //id of next mutex creation
 //Do we need a Queue or Linked list or Arraylist of TCBs in order to access TCBs' contexts?
 //How does deallocation of Queues and Linked lists work? 
 
+//#define MEM 64000
+#define MEM (SIGSTKSZ - 60)
+
+
+/* create a new thread */
+void thread_runner(void *(*function)(void*), void *arg) {
+    void *ret_val = function(arg);
+    my_pthread_exit(ret_val);
+
+   
+}
+
 
 /* create a new thread */
 int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
@@ -29,6 +41,8 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 
 
     	// create and initialize the context of this thread
+	//tcb* old;
+	//tcb*t = tcb_init();
 		getcontext(&(t->context));
     	/*t->context.uc_link = &(old->context);
 		t->context.uc_stack = (stack_t) {.ss_sp = malloc(MEM), .ss_size = MEM,
