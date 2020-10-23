@@ -11,9 +11,11 @@
 int in_library = 0; //for scheduling?
 int nextMutexId = 0; //id of next mutex creation
 
-//Global Variable?
-//Do we need a Queue or Linked list or Arraylist of TCBs in order to access TCBs' contexts?
-//How does deallocation of Queues and Linked lists work? 
+//initialize schedule tcb
+//initialize tcb arraylist
+struct sigaction new_action;
+new_action.sa_handler = alarm_handler;
+sigaction(SIGVTALRM, &new_action, NULL);
 
 //#define MEM 64000
 #define MEM (SIGSTKSZ - 60)
@@ -163,11 +165,7 @@ int mypthread_mutex_destroy(mypthread_mutex_t *mutex) {
 static void alarm_handler(int signum) {
 	//increase current thread TCB elapsed
 	//set current TCB status to 3
-
-	//dequeue tcb schedule 
-	//Initialize a context and set it to context of dequeued tcb schedule
-	//Context switch from current context to initialized context
-	//enqueue old tcb to queue
+	//Context switch from current context to stcf context
 }
 
 
@@ -178,9 +176,13 @@ static void sched_stcf() {
 	// (feel free to modify arguments and return types)
 
 	// YOUR CODE HERE
-	struct sigaction new_action;
-	new_action.sa_handler = alarm_handler;
-	sigaction(SIGVTALRM, &new_action, NULL);
+
+	//while linked list is not empty:
+	//obtain tcb at front of arraylist
+	//set timer
+	//context switch to that tcb's context from schedule context
+	
+
 }
 
 
@@ -190,7 +192,6 @@ static void schedule() {
 	// Every time when timer interrupt happens, your thread library
 	// should be contexted switched from thread context to this
 	// schedule function
-	tcb Queue 
 	// YOUR CODE HERE
 	sched_stcf();
 }

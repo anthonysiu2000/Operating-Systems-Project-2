@@ -12,11 +12,33 @@ Logic:
         to scheduled and setting qte to 0, we will create the thread context using the getcontext 
         and makecontext functions.
             After creating and allocating the thread control block, we will add the tcb onto
-        the scheduler queue of tcbs. The scheduler will decide which thread to run and for how
-        long. We do this simply by enqueueing the created tcb onto a previously 
+        the scheduler Linked List of tcbs. The scheduler will decide which thread to run and for how
+        long. We do this by inserting a tcb Node into the scheduler Linked List declared in the schedule
+        function.
+
+        myThreadYield:
+
+        myThreadExit:
+            We first initialize a void pointer and set it equal to the result of the thread, if the input 
+        is not NULL.
+            We deallocate the tcb be by simply calling the free() function on the tcb. We will also delete
+        the tcb from the Linked List by removing the first node.
+            We will then context switch back to the scheduler.
+
+        myThreadJoin: 
 
     Scheduler:
-        
+        Deciding on which thread: 
+            Following the rules set by STCF, our goal is to context switch into the thread with 
+        the lowest quantum time elapsed. We will choose a data structure with easy access to
+        this variable while also maintaining the ability to insert tcbs at any point in the 
+        structure. Because queues and stacks can only insert at one end of the list, we have
+        chosen the linked list data structure, where tcbs at the front will have lower quantum
+        time elapsed, while tcbs at the rear will have larger quantum time elapsed. We will remove
+        the tcb at the front of the list while at the same time context switching to that tcb's
+        context.
+
+        SetTimerQuantum:
 
         SetTimer:
             One of the arguments in settimer()/gettimer() involves the variable "which", which
@@ -26,12 +48,21 @@ Logic:
         thread for one quantum time, we will use the ITIMER_VIRTUAL value to decrement time 
         only when inside a thread.
 
+        SetTimer code location:
+            We will call settimer in the scheduler function and then immediately context switch to
+        the thread with the least qte.
+
+        Timer Signal:
+            Whenever timer ends, and the thread has not exited, we have to increase qte for
+        the current tcb by one, set status to scheduled, and context switch back to the 
+        scheduler. In addition, because
+
 
 Benchmark:
 
 
 Challenging part:
-
+    
 
 
 Improvement: 
