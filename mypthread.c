@@ -165,6 +165,7 @@ int mypthread_mutex_destroy(mypthread_mutex_t *mutex) {
 static void alarm_handler(int signum) {
 	//increase current thread TCB elapsed
 	//set current TCB status to 3
+	//insert tcb into arraylist
 	//Context switch from current context to stcf context
 }
 
@@ -178,9 +179,10 @@ static void sched_stcf() {
 	// YOUR CODE HERE
 
 	//while linked list is not empty:
-	//obtain tcb at front of arraylist
-	//set timer
+	//remove and obtain tcb at front of arraylist
+	//set timer to quantum
 	//context switch to that tcb's context from schedule context
+	//pause timer
 	
 
 }

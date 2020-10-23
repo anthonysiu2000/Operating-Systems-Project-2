@@ -6,26 +6,26 @@ Logic:
         myThreadCreate:
             In order to implement the create mythread API, We will follow the directions set
         in the instructions. We will first create a new thread control block, which will 
-        contain the thread id, quantum time elapsed(qte), thread context, and thread status. 
-        We will dynamically allocate memory for each control block.
+        contain the thread id, quantum time elapsed(qte), thread context, thread output, and thread 
+        status. We will dynamically allocate memory for each control block.
             After setting thread id to the thread id given in the input, initializing status 
         to scheduled and setting qte to 0, we will create the thread context using the getcontext 
         and makecontext functions.
             After creating and allocating the thread control block, we will add the tcb onto
         the scheduler Linked List of tcbs. The scheduler will decide which thread to run and for how
-        long. We do this by inserting a tcb Node into the scheduler Linked List declared in the schedule
-        function.
+        long. We do this by inserting a tcb Node into the scheduler Linked List. We will then call the 
+        schedule() function.
 
         myThreadYield:
 
         myThreadExit:
-            We first initialize a void pointer and set it equal to the result of the thread, if the input 
-        is not NULL.
-            We deallocate the tcb be by simply calling the free() function on the tcb. We will also delete
-        the tcb from the Linked List by removing the first node.
+            We pause the timer.
+            We set the tcb's output equal to the result of the thread, if the input is not NULL.
             We will then context switch back to the scheduler.
 
         myThreadJoin: 
+            We deallocate the tcb be by simply calling the free() function on the tcb. We do not need to 
+        remove the tcb from the linked list, as it has already been removed.
 
     Scheduler:
         Deciding on which thread: 
@@ -38,7 +38,14 @@ Logic:
         the tcb at the front of the list while at the same time context switching to that tcb's
         context.
 
+        Timer Signal:
+            Whenever timer ends, and the thread has not exited, we have to increase qte for
+        the current tcb by one, set status to scheduled, and context switch back to the 
+        scheduler. In addition, because we had previously removed the thread from the arraylist,
+        we will insert it back in, accounting for the change in qte.        
+
         SetTimerQuantum:
+            We will preset the Timer Quantum as 5000 microseconds as a global variable.
 
         SetTimer:
             One of the arguments in settimer()/gettimer() involves the variable "which", which
@@ -52,17 +59,14 @@ Logic:
             We will call settimer in the scheduler function and then immediately context switch to
         the thread with the least qte.
 
-        Timer Signal:
-            Whenever timer ends, and the thread has not exited, we have to increase qte for
-        the current tcb by one, set status to scheduled, and context switch back to the 
-        scheduler. In addition, because
+
 
 
 Benchmark:
 
 
 Challenging part:
-    
+
 
 
 Improvement: 

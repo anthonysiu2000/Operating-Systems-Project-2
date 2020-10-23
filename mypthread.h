@@ -35,6 +35,7 @@ typedef struct threadControlBlock {
 	// thread stack
 	// thread priority
 	// And more ...
+	void *output;
 	int elapsed; //indicates how many time quantum has expired since the time thread was scheduled
 	
     int p_level;
