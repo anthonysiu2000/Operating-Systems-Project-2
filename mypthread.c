@@ -43,7 +43,6 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 
 
     	// after everything is all set, push this thread int
-       
 
 
     return 0;
@@ -148,7 +147,13 @@ int mypthread_mutex_destroy(mypthread_mutex_t *mutex) {
 
 /*code to be run when SIGALRM is passed*/
 static void alarm_handler(int signum) {
-	
+	//increase current thread TCB elapsed
+	//set current TCB status to 3
+
+	//dequeue tcb schedule 
+	//Initialize a context and set it to context of dequeued tcb schedule
+	//Context switch from current context to initialized context
+	//enqueue old tcb to queue
 }
 
 
@@ -161,7 +166,7 @@ static void sched_stcf() {
 	// YOUR CODE HERE
 	struct sigaction new_action;
 	new_action.sa_handler = alarm_handler;
-	sigaction(SIGALRM, &new_action, NULL);
+	sigaction(SIGVTALRM, &new_action, NULL);
 }
 
 
@@ -171,7 +176,7 @@ static void schedule() {
 	// Every time when timer interrupt happens, your thread library
 	// should be contexted switched from thread context to this
 	// schedule function
-	
+	tcb Queue 
 	// YOUR CODE HERE
 	sched_stcf();
 }

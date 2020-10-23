@@ -3,8 +3,22 @@ Names/netid: Jonathan Konopka (jk1549), Anthony Siu (ays53)
 
 Logic:
     Thread Functions:
+        myThreadCreate:
+            In order to implement the create mythread API, We will follow the directions set
+        in the instructions. We will first create a new thread control block, which will 
+        contain the thread id, quantum time elapsed(qte), thread context, and thread status. 
+        We will dynamically allocate memory for each control block.
+            After setting thread id to the thread id given in the input, initializing status 
+        to scheduled and setting qte to 0, we will create the thread context using the getcontext 
+        and makecontext functions.
+            After creating and allocating the thread control block, we will add the tcb onto
+        the scheduler queue of tcbs. The scheduler will decide which thread to run and for how
+        long. We do this simply by enqueueing the created tcb onto a previously 
 
     Scheduler:
+        
+
+        SetTimer:
             One of the arguments in settimer()/gettimer() involves the variable "which", which
         can have the value ITIMER_REAL, ITIMER_VIRTUAL, or ITIMER_PROF. Each of these values
         define when the timer decrements: in real time, when the process is executing, and
