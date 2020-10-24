@@ -16,11 +16,11 @@ Logic:
         long. We do this by inserting a tcb Node into the scheduler Linked List. 
 
         myThreadYield:
-            We stop the timer.
-            We will context switch to the scheduler
-            
+            It is intended to change the state of the thread to Ready. We could not properly implement this
+            function due our inexperience with contexts. 
+
         myThreadExit:
-            We stop the timer.
+            We pause the timer.
             We set the tcb's output equal to the result of the thread, if the input is not NULL.
             We will then context switch back to the scheduler.
 
@@ -64,15 +64,20 @@ Logic:
     Mutex:
         Mutexinit:
             We declared the mutex and set its id and locked status to the correct values.
+            
         MutexLock:
+            Given a mutex, we check if the mutex is unlocked, then set the locked value to 1. We did not implement
+            the test-and-set function.
 
         MutexUnlock:
+            Given a mutex, this function unlocks it by setting the value to 0. Removes the latest tcb from the Schedule list. 
 
         MutexDestroy:
-            We will deallocate the mutex.
+            We will deallocate the mutex by freeing its values.
 
 
 Benchmark:
+    We could not run and test the benchmarks as we did not give ourselves sufficient time to complete the assignment. 
 
 
 Challenging part:
@@ -84,6 +89,8 @@ as we could write down what each function had to do without worrying about synta
     Another challenge was the implementation of the scheduler, which was difficult to test whether or not
 the scheduler was working. Due to the scheduler's extreme reliance on context switches, of which we are
 very inexperienced coding with, we had to be extremely thorough with our instuctions sent to the scheduler.
+    Overall, we did not manage our time well, as the project was much more rigorous than the first. Better time management
+would make it easier to implement unfamiliar material and debug large projects. 
 
 
 Improvement: 
