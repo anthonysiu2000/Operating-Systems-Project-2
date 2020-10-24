@@ -221,6 +221,8 @@ int mypthread_mutex_lock(mypthread_mutex_t *mutex) {
         // if acquiring mutex fails, push current thread into block list and //
         // context switch to the scheduler thread
 	       in_library = 1;
+	
+	//__atomic_test_and_set(mutex)
          //ualarm(0, 0);
         if (mutex->locked == 0) {
           mutex->locked = 1;
