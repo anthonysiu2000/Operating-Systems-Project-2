@@ -135,8 +135,8 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 	getcontext(&(t->context));
 	     t->context.uc_link=0;
 	     t->context.uc_stack.ss_sp= malloc(MEM);
-	     t->context.uc_stack = ss_size=MEM;
-	     t->context.uc_stack = ss_flags = 0;
+	     t->context.uc_stack.ss_size=MEM;
+	     t->context.uc_stack.ss_flags = 0;
     	//uc link
       //uc stack
     	makecontext(&(t->context), *(*function)(void*), arg);
