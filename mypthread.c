@@ -132,8 +132,8 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 	getcontext(t->context);
 	     t->context->uc_link=0;
 	     t->context->uc_stack.ss_sp= malloc(MEM);
-	     t->context->uc_stack = ss_size=MEM;
-	     t->context->uc_stack = ss_flags = 0;
+	     t->context->uc_stack.ss_size=MEM;
+	     t->context->uc_stack.ss_flags = 0;
     	//uc link
       //uc stack
     	makecontext(t->context, &function, 0);
@@ -222,6 +222,8 @@ int mypthread_mutex_lock(mypthread_mutex_t *mutex) {
         // if acquiring mutex fails, push current thread into block list and //
         // context switch to the scheduler thread
 	       in_library = 1;
+	
+	//__atomic_test_and_set(mutex)
          //ualarm(0, 0);
         if (mutex->locked == 0) {
           mutex->locked = 1;
