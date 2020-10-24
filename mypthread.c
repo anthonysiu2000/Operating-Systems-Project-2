@@ -117,7 +117,7 @@ void thread_runner(void *(*function)(void*), void *arg) {
     mypthread_exit(ret_val);
 }
 
-}*/
+}
 
 /* create a new thread */
 int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
@@ -132,14 +132,14 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 
 
     	// create and initialize the context of this thread
-	//tcb* old;
-	//tcb*t = tcb_init();
-		getcontext(&(t->context));
-    	/*t->context.uc_link = &(old->context);
-		t->context.uc_stack = (stack_t) {.ss_sp = malloc(MEM), .ss_size = MEM,
-	       .ss_flags=0};
-		*/
-    	makecontext(&(t->context), &function, 0);
+	getcontext(&(t->context));
+	     t->context.uc_link=0;
+	     t->context.uc_stack.ss_sp= malloc(MEM);
+	     t->context.uc_stack = ss_size=MEM;
+	     t->context.uc_stack = ss_flags = 0;
+    	//uc link
+      //uc stack
+    	makecontext(&(t->context), *(*function)(void*), arg);
 
 
     	// allocate space of stack for this thread to run
