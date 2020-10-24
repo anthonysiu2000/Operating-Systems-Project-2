@@ -65,7 +65,16 @@ Benchmark:
 
 
 Challenging part:
-
+    One of the biggest challenges during this project was the placement of code and the multitude of
+instructions needed for thread creation and scheduling. Before beginning to write any code for the 
+scheduler or thread functions, we had to comment every single instruction that that function had
+to do in order for scheduling to work. This was much easier than beginning to code each function outright,
+as we could write down what each function had to do without worrying about syntax
 
 
 Improvement: 
+    One of the biggest issues concerned with out code concerns the amount of global variables we had
+used in our program. One of the biggest issues with global variables is that they cannot be free() so
+easily, and thus take up space in memory. If we could improve anything about our project, decreasing
+the number of global variables needed in favor of dynamic local variables located inside functions would
+decrease the memory required to run the code.

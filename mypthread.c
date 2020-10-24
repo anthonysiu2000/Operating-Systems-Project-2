@@ -47,10 +47,6 @@ static void alarm_handler(int signum) {
 
 /* Preemptive SJF (STCF) scheduling algorithm */
 static void sched_stcf() {
-	// Your own implementation of STCF
-	// (feel free to modify arguments and return types)
-
-	// YOUR CODE HERE
 
 	//initialize schedule context
 	getcontext(schedContext);
@@ -82,16 +78,18 @@ static void sched_stcf() {
 
 /* scheduler */
 static void schedule() {
-	// Every time when timer interrupt happens, your thread library
-	// should be contexted switched from thread context to this
-	// schedule function
-	// YOUR CODE HERE
+
+	//change alarm signal
 	struct sigaction new_action;
 	new_action.sa_handler = alarm_handler;
 	sigaction(SIGVTALRM, &new_action, NULL);
 	alarmSignalMade = 1;
+
+	//initialize schedule arraylist
 	scheduleList->tcb = NULL;
 	scheduleList->next = NULL;
+
+	//initialize quantum and pause;
 	quantum->it_interval.tv_sec = 0;
 	quantum->it_interval.tv_usec = 5000;
 	quantum->it_value.tv_sec = 0;
@@ -114,16 +112,10 @@ static void schedule() {
 
 
 /* create a new thread */
-<<<<<<< HEAD
 void thread_runner(void *(*function)(void*), void *arg) {
     void *ret_val = function(arg);
     mypthread_exit(ret_val);
 }
-=======
-/*void thread_runner(void *(*function)(void*), void *arg) {
-    void *retVal = function(arg);
-    mypthread_exit(retVal);
->>>>>>> 3ad46c792be81a945a74249ea42633b3c92280fc
 
 }*/
 
@@ -273,7 +265,6 @@ int mypthread_mutex_destroy(mypthread_mutex_t *mutex) {
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -284,71 +275,3 @@ int mypthread_mutex_destroy(mypthread_mutex_t *mutex) {
 
 
 
-=======
-/*code to be run when SIGALRM is passed*/
-static void alarm_handler(int signum) {
-
-  //ualarm(0, 0);
-	tcbTimeIncrease = 1;
-
-	//Context switch to stcf context
-	setcontext(schedContext);
-}
-
-
-/* Preemptive SJF (STCF) scheduling algorithm */
-static void sched_stcf() {
-	// Your own implementation of STCF
-	// (feel free to modify arguments and return types)
-
-	// YOUR CODE HERE
-
-	//initialize schedule context
-	getcontext(schedContext);
-
-	//while linked list is not empty:
-	while (!isEmpty(scheduleList)) {
-		//remove and obtain tcb at front of arraylist
-		struct threadControlBlock *currtcb = deleteFirst(scheduleList);
-		//set timer to quantum
-		setitimer(ITIMERVIRTUAL, quantum, NULL);
-		//context switch to that tcb's context from schedule context
-		swapcontext(schedContext, );
-		//pause timer
-		struct itimerval pause;
-		pause->it_interval.tv_sec = 0;
-		pause->it_interval.tv_usec = 0;
-		pause->it_value.tv_sec = 0;
-		pause->it_value.tv_usec = 0;
-		setitimer(ITIMER_VIRTUAL, pause, NULL);
-
-		if (tcbTimeIncrease == 1) {
-			//increase current thread TCB elapsed
-			currtcb->elapsed++;
-			//set current TCB status to 3
-			currtcb->status = 3;
-			//insert tcb into arraylist
-			insertNode(scheduleList, currtcb);
-			//reset alarm_handler
-			tcbTimeIncrease == 0;
-		}
-	}
-
-
-}
-
-
-/* scheduler */
-static void schedule() {
-	// Every time when timer interrupt happens, your thread library
-	// should be contexted switched from thread context to this
-	// schedule function
-	// YOUR CODE HERE
-	struct sigaction new_action;
-	new_action.sa_handler = alarm_handler;
-	sigaction(SIGVTALRM, &new_action, NULL);
-	alarmSignalMade = 1;
-
-	sched_stcf();
-}
->>>>>>> 3ad46c792be81a945a74249ea42633b3c92280fc
