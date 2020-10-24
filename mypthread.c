@@ -11,10 +11,17 @@
 int in_library = 0; //for scheduling?
 int nextMutexId = 0; //id of next mutex creation
 int alarmSignalMade = 0; // so that the system for generating SIGVTALRM only occurs once
+int tcbTimeIncrease = 0; //for time signal
 //initialize tcb arraylist
 struct node *scheduleList = (struct node*) malloc(sizeof(struct node));
 //initialize schedule context
-ucontext_t schedContext;
+ucontext_t *schedContext;
+//initialize quantum;
+struct itimerval *quantum;
+quantum->it_interval.tv_sec = 0
+quantum->it_interval.tv_usec = 5000;
+quantum->it_value.tv_sec = 0
+quantum->it_value.tv_usec = 5000;
 
 //#define MEM 64000
 #define MEM (SIGSTKSZ - 60)
@@ -170,8 +177,8 @@ static void alarm_handler(int signum) {
 
 	tcbTimeIncrease = 1;
 	
-	//Context switch from current context to stcf context
-	swapcontext();
+	//Context switch to stcf context
+	setcontext(schedContext);
 }
 
 
@@ -184,19 +191,27 @@ static void sched_stcf() {
 	// YOUR CODE HERE
 
 	//initialize schedule context
-	setcontext(schedContext);
+	getcontext(schedContext);
+	
 	//while linked list is not empty:
 	while (!isEmpty(scheduleList)) {
 		//remove and obtain tcb at front of arraylist
 		struct threadControlBlock *currtcb = deleteFirst(scheduleList);
 		//set timer to quantum
+		setitimer(ITIMERVIRTUAL, quantum, NULL)
 		//context switch to that tcb's context from schedule context
-		swapcontext();
+		swapcontext(schedContext, );
 		//pause timer
+		struct itimerval pause;
+		pause->it_interval.tv_sec = 0
+		pause->it_interval.tv_usec = 0;
+		pause->it_value.tv_sec = 0
+		pause->it_value.tv_usec = 0;
+		setitimer(ITIMER_VIRTUAL, pause, NULL)
 
 		if (tcbTimeIncrease == 1) {
 			//increase current thread TCB elapsed
-			currtcb->elapsed ++;
+			currtcb->elapsed++;
 			//set current TCB status to 3
 			currtcb->status = 3;
 			//insert tcb into arraylist
