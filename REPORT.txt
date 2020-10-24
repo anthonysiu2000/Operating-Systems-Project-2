@@ -45,6 +45,7 @@ Logic:
 
         SetTimerQuantum:
             We will preset the Timer Quantum as 5000 microseconds as a global variable.
+            We will pause the timer with the "pauseTime" itimerval structure.
 
         SetTimer:
             One of the arguments in settimer()/gettimer() involves the variable "which", which
@@ -69,7 +70,10 @@ Challenging part:
 instructions needed for thread creation and scheduling. Before beginning to write any code for the 
 scheduler or thread functions, we had to comment every single instruction that that function had
 to do in order for scheduling to work. This was much easier than beginning to code each function outright,
-as we could write down what each function had to do without worrying about syntax
+as we could write down what each function had to do without worrying about syntax.
+    Another challenge was the implementation of the scheduler, which was difficult to test whether or not
+the scheduler was working. Due to the scheduler's extreme reliance on context switches, of which we are
+very inexperienced coding with, we had to be extremely thorough with our instuctions sent to the scheduler.
 
 
 Improvement: 
