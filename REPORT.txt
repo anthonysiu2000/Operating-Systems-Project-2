@@ -61,11 +61,13 @@ Logic:
 
     Mutex:
         Mutexinit:
+            We declared the mutex and set its id and locked status to the correct values.
         MutexLock:
+
         MutexUnlock:
+
         MutexDestroy:
-
-
+            We will deallocate the mutex's id, the mutex's locked status, and finally the mutex itself.
 
 
 Benchmark:
