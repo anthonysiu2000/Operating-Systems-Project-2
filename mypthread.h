@@ -51,12 +51,16 @@ typedef struct mypthread_mutex_t {
     int locked; // 0 = unlocked, 1 = locked
 } mypthread_mutex_t;
 
-/* define your data structures here: */
-// Feel free to add your own auxiliary data structures (linked list or queue etc...)
 
 
-// YOUR CODE HERE
 
+
+
+
+
+
+
+//Linked List
 
 struct node {
    struct threadControlBlock *tcb;
@@ -109,6 +113,11 @@ struct threadControlBlock* deleteFirst(struct node *list) {
    //return the deleted link
    return firstNode->tcb;
 }
+
+
+
+
+
 
 
 /* Function Declarations: */

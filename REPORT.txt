@@ -59,6 +59,12 @@ Logic:
             We will call settimer in the scheduler function and then immediately context switch to
         the thread with the least qte.
 
+    Mutex:
+        Mutexinit:
+        MutexLock:
+        MutexUnlock:
+        MutexDestroy:
+
 
 
 

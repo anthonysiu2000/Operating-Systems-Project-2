@@ -208,7 +208,6 @@ int mypthread_join(mypthread_t thread, void **value_ptr) {
 int mypthread_mutex_init(mypthread_mutex_t *mutex,
                           const pthread_mutexattr_t *mutexattr) {
 	//initialize data structures for this mutex
-	// YOUR CODE HERE
 
   //struct mypthread_mutex_t  *m = malloc(sizeof(*m));
   mutex->id = nextMutexId++;
@@ -224,7 +223,6 @@ int mypthread_mutex_lock(mypthread_mutex_t *mutex) {
         // context switch to the scheduler thread
 	       in_library = 1;
          //ualarm(0, 0);
-        // YOUR CODE HERE
         if (mutex->locked == 0) {
           mutex->locked = 1;
           //insert to queue a tcb
