@@ -129,11 +129,19 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 
 
     	// create and initialize the context of this thread
+<<<<<<< HEAD
 	getcontext(t->context);
 	     t->context->uc_link=0;
 	     t->context->uc_stack.ss_sp= malloc(MEM);
 	     t->context->uc_stack = ss_size=MEM;
 	     t->context->uc_stack = ss_flags = 0;
+=======
+	getcontext(&(t->context));
+	     t->context.uc_link=0;
+	     t->context.uc_stack.ss_sp= malloc(MEM);
+	     t->context.uc_stack.ss_size=MEM;
+	     t->context.uc_stack.ss_flags = 0;
+>>>>>>> a83eb0f8ae3c121b7f792e77c893571d175a76fe
     	//uc link
       //uc stack
     	makecontext(t->context, function, 0);
