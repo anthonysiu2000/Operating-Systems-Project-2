@@ -136,7 +136,7 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 	     t->context->uc_stack = ss_flags = 0;
     	//uc link
       //uc stack
-    	makecontext(t->context, function, 0);
+    	makecontext(t->context, &function, 0);
 
 
     	// allocate space of stack for this thread to run
@@ -208,9 +208,10 @@ int mypthread_mutex_init(mypthread_mutex_t *mutex,
                           const pthread_mutexattr_t *mutexattr) {
 	//initialize data structures for this mutex
 
-  //struct mypthread_mutex_t  *m = malloc(sizeof(*m));
-  mutex->id = nextMutexId++;
-  mutex->locked = 0;
+	struct mypthread_mutex_t  *m = malloc(sizeof(*m));
+	m->id = nextMutexId++;
+	m->locked = 0;
+	mutex = m;
 	return 0;
 };
 
@@ -254,8 +255,6 @@ int mypthread_mutex_destroy(mypthread_mutex_t *mutex) {
 	// Deallocate dynamic memory created in mypthread_mutex_init
 
   //ualarm(0, 0);
-  free(mutex->id);
-  free(mutex->locked);
   free(mutex);
 	return 0;
 };
