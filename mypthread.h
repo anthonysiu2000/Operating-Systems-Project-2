@@ -31,7 +31,7 @@ typedef struct threadControlBlock {
 	// thread status
 	int status;	// 0 = running, 1 = ready, 2 = blocked, 3 = scheduled
 	// thread context
-	ucontext_t context;
+	struct ucontext_t context;
 	// thread stack
 	// thread priority
 	// And more ...
