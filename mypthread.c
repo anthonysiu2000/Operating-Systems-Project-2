@@ -18,9 +18,9 @@ struct node *scheduleList = (struct node*) malloc(sizeof(struct node));
 ucontext_t *schedContext;
 //initialize quantum;
 struct itimerval *quantum;
-quantum->it_interval.tv_sec = 0
+quantum->it_interval.tv_sec = 0;
 quantum->it_interval.tv_usec = 5000;
-quantum->it_value.tv_sec = 0
+quantum->it_value.tv_sec = 0;
 quantum->it_value.tv_usec = 5000;
 
 //#define MEM 64000
@@ -198,16 +198,16 @@ static void sched_stcf() {
 		//remove and obtain tcb at front of arraylist
 		struct threadControlBlock *currtcb = deleteFirst(scheduleList);
 		//set timer to quantum
-		setitimer(ITIMERVIRTUAL, quantum, NULL)
+		setitimer(ITIMERVIRTUAL, quantum, NULL);
 		//context switch to that tcb's context from schedule context
 		swapcontext(schedContext, );
 		//pause timer
 		struct itimerval pause;
-		pause->it_interval.tv_sec = 0
+		pause->it_interval.tv_sec = 0;
 		pause->it_interval.tv_usec = 0;
-		pause->it_value.tv_sec = 0
+		pause->it_value.tv_sec = 0;
 		pause->it_value.tv_usec = 0;
-		setitimer(ITIMER_VIRTUAL, pause, NULL)
+		setitimer(ITIMER_VIRTUAL, pause, NULL);
 
 		if (tcbTimeIncrease == 1) {
 			//increase current thread TCB elapsed
@@ -217,7 +217,7 @@ static void sched_stcf() {
 			//insert tcb into arraylist
 			insertNode(scheduleList, currtcb);
 			//reset alarm_handler
-			tcbTimeIncrease == 0
+			tcbTimeIncrease == 0;
 		}
 	}
 	
