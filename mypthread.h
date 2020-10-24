@@ -1,6 +1,6 @@
 // File:	mypthread_t.h
 
-// List all group member's name:  Jonathan Konopka, Anthony Siu 
+// List all group member's name:  Jonathan Konopka, Anthony Siu
 // username of iLab:
 // iLab Server:
 
@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <ucontext.h>
 #include <sys/time.h>
-#include <signal.h> 
+#include <signal.h>
 
 typedef uint mypthread_t;
 
@@ -37,18 +37,15 @@ typedef struct threadControlBlock {
 	// And more ...
 	void *output;
 	int elapsed; //indicates how many time quantum has expired since the time thread was scheduled
-	
+
     int p_level;
     void * retval;
 } tcb;
 
-
-
-
 /* mutex struct definition */
 typedef struct mypthread_mutex_t {
 	/* add something here */
-	
+
 	// YOUR CODE HERE
 	int id;
     int locked; // 0 = unlocked, 1 = locked
@@ -56,10 +53,6 @@ typedef struct mypthread_mutex_t {
 
 /* define your data structures here: */
 // Feel free to add your own auxiliary data structures (linked list or queue etc...)
-
-
-
-
 
 
 // YOUR CODE HERE
@@ -76,7 +69,7 @@ struct node* insertNode(struct node *list, struct threadControlBlock *inputtcb) 
    struct node *link = (struct node*) malloc(sizeof(struct node));
    link->tcb = inputtcb;
    link->next = NULL;
-	
+
    int inputquantum = inputtcb->elapsed;
    struct node *temp = list;
    struct node *prev = NULL;
@@ -106,21 +99,16 @@ struct threadControlBlock* deleteFirst(struct node *list) {
 
    //save reference to first link
    struct node *firstNode = list;
-	
-   //mark next to first link as first 
+
+   //mark next to first link as first
    list = list->next;
-	
+
    if (isEmpty(list)) {
       free(list);
    }
    //return the deleted link
    return firstNode->tcb;
 }
-
-
-
-
-
 
 
 /* Function Declarations: */
