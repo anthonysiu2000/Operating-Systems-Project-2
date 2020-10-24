@@ -10,12 +10,11 @@
 // YOUR CODE HERE
 int in_library = 0; //for scheduling?
 int nextMutexId = 0; //id of next mutex creation
-
-//initialize schedule tcb
+int alarmSignalMade = 0; // so that the system for generating SIGVTALRM only occurs once
 //initialize tcb arraylist
-struct sigaction new_action;
-new_action.sa_handler = alarm_handler;
-sigaction(SIGVTALRM, &new_action, NULL);
+struct node *scheduleList = (struct node*) malloc(sizeof(struct node));
+//initialize schedule context
+ucontext_t schedContext;
 
 //#define MEM 64000
 #define MEM (SIGSTKSZ - 60)
@@ -24,7 +23,7 @@ sigaction(SIGVTALRM, &new_action, NULL);
 /* create a new thread */
 void thread_runner(void *(*function)(void*), void *arg) {
     void *ret_val = function(arg);
-    my_pthread_exit(ret_val);
+    mypthread_exit(ret_val);
 
    
 }
@@ -50,14 +49,19 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 		t->context.uc_stack = (stack_t) {.ss_sp = malloc(MEM), .ss_size = MEM,
 	       .ss_flags=0};
 		*/
-    	makecontext(&(t->context), function, 2, function, arg);
+    	makecontext(&(t->context), *(*function)(void*), 0);
 
        
     	// allocate space of stack for this thread to run
 
 
 
-
+		if (alarmSignalMade == 0) {
+			schedule();
+		} else {
+			insertNode(scheduleList, t);
+			swapcontext;
+		}
     	// after everything is all set, push this thread int
 
 
@@ -163,10 +167,11 @@ int mypthread_mutex_destroy(mypthread_mutex_t *mutex) {
 
 /*code to be run when SIGALRM is passed*/
 static void alarm_handler(int signum) {
-	//increase current thread TCB elapsed
-	//set current TCB status to 3
-	//insert tcb into arraylist
+
+	tcbTimeIncrease = 1;
+	
 	//Context switch from current context to stcf context
+	swapcontext();
 }
 
 
@@ -178,11 +183,30 @@ static void sched_stcf() {
 
 	// YOUR CODE HERE
 
+	//initialize schedule context
+	setcontext(schedContext);
 	//while linked list is not empty:
-	//remove and obtain tcb at front of arraylist
-	//set timer to quantum
-	//context switch to that tcb's context from schedule context
-	//pause timer
+	while (!isEmpty(scheduleList)) {
+		//remove and obtain tcb at front of arraylist
+		struct threadControlBlock *currtcb = deleteFirst(scheduleList);
+		//set timer to quantum
+		//context switch to that tcb's context from schedule context
+		swapcontext();
+		//pause timer
+
+		if (tcbTimeIncrease == 1) {
+			//increase current thread TCB elapsed
+			currtcb->elapsed ++;
+			//set current TCB status to 3
+			currtcb->status = 3;
+			//insert tcb into arraylist
+			insertNode(scheduleList, currtcb);
+			//reset alarm_handler
+			tcbTimeIncrease == 0
+		}
+	}
+	
+	
 	
 
 }
@@ -195,6 +219,11 @@ static void schedule() {
 	// should be contexted switched from thread context to this
 	// schedule function
 	// YOUR CODE HERE
+	struct sigaction new_action;
+	new_action.sa_handler = alarm_handler;
+	sigaction(SIGVTALRM, &new_action, NULL);
+	alarmSignalMade = 1;
+
 	sched_stcf();
 }
 

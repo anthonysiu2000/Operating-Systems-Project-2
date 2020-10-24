@@ -71,10 +71,10 @@ struct node {
 };
 
 //insert link at the first location
-void insertNode(struct node list, struct threadControlBlock *inputtcb) {
+struct node* insertNode(struct node *list, struct threadControlBlock *inputtcb) {
    //create a link
    struct node *link = (struct node*) malloc(sizeof(struct node));
-   link->tcb = &inputtcb;
+   link->tcb = inputtcb;
    link->next = NULL;
 	
    int inputquantum = inputtcb->elapsed;
@@ -82,8 +82,8 @@ void insertNode(struct node list, struct threadControlBlock *inputtcb) {
    struct node *prev = NULL;
    while (temp != NULL) {
       if (inputquantum <= temp->tcb->elapsed) {
-         link->next = &temp;
-         prev->next = &link;
+         link->next = temp;
+         prev->next = link;
          break;
 
       }
@@ -93,10 +93,16 @@ void insertNode(struct node list, struct threadControlBlock *inputtcb) {
    if (temp == NULL) {
       prev->next = link;
    }
+   return list;
+}
+
+//is list empty
+int isEmpty(struct node *list) {
+   return (list == NULL);
 }
 
 //delete first item
-struct threadControlBlock* deleteFirst(struct node list) {
+struct threadControlBlock* deleteFirst(struct node *list) {
 
    //save reference to first link
    struct node *firstNode = list;
@@ -111,10 +117,6 @@ struct threadControlBlock* deleteFirst(struct node list) {
    return firstNode->tcb;
 }
 
-//is list empty
-bool isEmpty() {
-   return head == NULL;
-}
 
 
 
