@@ -28,18 +28,16 @@ quantum->it_value.tv_usec = 5000;
 
 
 /* create a new thread */
-void thread_runner(void *(*function)(void*), void *arg) {
-    void *ret_val = function(arg);
-    mypthread_exit(ret_val);
+/*void thread_runner(void *(*function)(void*), void *arg) {
+    void *retVal = function(arg);
+    mypthread_exit(retVal);
 
-   
-}
-
+}*/
 
 /* create a new thread */
 int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
                       void *(*function)(void*), void * arg) {
-       
+      //ualarm(0, 0);
     	in_library=1;
 
     	// create Thread Control Block
@@ -58,10 +56,8 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 		*/
     	makecontext(&(t->context), *(*function)(void*), 0);
 
-       
+
     	// allocate space of stack for this thread to run
-
-
 
 		if (alarmSignalMade == 0) {
 			schedule();
@@ -70,7 +66,6 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 			swapcontext;
 		}
     	// after everything is all set, push this thread int
-
 
     return 0;
 };
@@ -84,6 +79,8 @@ int mypthread_yield() {
 
 	// YOUR CODE HERE
 	//need timer interrupt
+
+  //ualarm(0, 0);
 	return 0;
 };
 
@@ -92,11 +89,12 @@ void mypthread_exit(void *value_ptr) {
 	// Deallocated any dynamic memory created when starting this thread
 
 	// YOUR CODE HERE
-	
+
 	in_library=1;
+  //ualarm(0, 0);
 
 	if (value_ptr !=NULL ) {
-		//save return value of thread 
+		//save return value of thread
 	}
 };
 
@@ -108,21 +106,15 @@ int mypthread_join(mypthread_t thread, void **value_ptr) {
 	// de-allocate any dynamic memory created by the joining thread
 
 	// YOUR CODE HERE
+
+  //ualarm(0, 0);
 	in_library = 1;
 	if (value_ptr != NULL) {
 		//pass back return value of thread
-		// *value_ptr = thread->retval; 
+		// *value_ptr = thread->retval;
 	}
 	return 0;
 };
-
-
-
-
-
-
-
-
 
 
 
@@ -131,9 +123,11 @@ int mypthread_join(mypthread_t thread, void **value_ptr) {
 int mypthread_mutex_init(mypthread_mutex_t *mutex,
                           const pthread_mutexattr_t *mutexattr) {
 	//initialize data structures for this mutex
-	
 	// YOUR CODE HERE
-	*mutex = (mypthread_mutex_t) {.id = nextMutexId++, .locked=0};
+
+  //struct mypthread_mutex_t  *m = malloc(sizeof(*m));
+  mutex->id = nextMutexId++;
+  mutex->locked = 0;
 	return 0;
 };
 
@@ -143,8 +137,16 @@ int mypthread_mutex_lock(mypthread_mutex_t *mutex) {
         // if the mutex is acquired successfully, enter the critical section
         // if acquiring mutex fails, push current thread into block list and //
         // context switch to the scheduler thread
-	in_library = 1;
+	       in_library = 1;
+         //ualarm(0, 0);
         // YOUR CODE HERE
+        if (mutex->locked == 0) {
+          mutex->locked = 1;
+          //insert to queue a tcb
+          //insertNode(scheduleList, );
+          return 0;
+        }
+
         return 0;
 };
 
@@ -155,6 +157,12 @@ int mypthread_mutex_unlock(mypthread_mutex_t *mutex) {
 	// so that they could compete for mutex later.
 
 	// YOUR CODE HERE
+
+  //ualarm(0, 0);
+  in_library = 1;
+  mutex->locked = 0;
+
+  deleteFirst(scheduleList); //delete queue
 	return 0;
 };
 
@@ -163,24 +171,24 @@ int mypthread_mutex_unlock(mypthread_mutex_t *mutex) {
 int mypthread_mutex_destroy(mypthread_mutex_t *mutex) {
 	// Deallocate dynamic memory created in mypthread_mutex_init
 
+  //ualarm(0, 0);
+  free(mutex->id);
+  free(mutex->locked);
+  free(mutex);
 	return 0;
 };
-
-
-
-
 
 
 
 /*code to be run when SIGALRM is passed*/
 static void alarm_handler(int signum) {
 
+  //ualarm(0, 0);
 	tcbTimeIncrease = 1;
-	
+
 	//Context switch to stcf context
 	setcontext(schedContext);
 }
-
 
 
 /* Preemptive SJF (STCF) scheduling algorithm */
@@ -192,7 +200,7 @@ static void sched_stcf() {
 
 	//initialize schedule context
 	getcontext(schedContext);
-	
+
 	//while linked list is not empty:
 	while (!isEmpty(scheduleList)) {
 		//remove and obtain tcb at front of arraylist
@@ -220,12 +228,9 @@ static void sched_stcf() {
 			tcbTimeIncrease == 0;
 		}
 	}
-	
-	
-	
+
 
 }
-
 
 
 /* scheduler */
@@ -241,9 +246,3 @@ static void schedule() {
 
 	sched_stcf();
 }
-
-
-
-
-
-
