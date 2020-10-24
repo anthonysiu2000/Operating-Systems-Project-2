@@ -16,9 +16,11 @@ Logic:
         long. We do this by inserting a tcb Node into the scheduler Linked List. 
 
         myThreadYield:
-
+            We stop the timer.
+            We will context switch to the scheduler
+            
         myThreadExit:
-            We pause the timer.
+            We stop the timer.
             We set the tcb's output equal to the result of the thread, if the input is not NULL.
             We will then context switch back to the scheduler.
 

@@ -27,6 +27,7 @@ struct ucontext_t *schedContext;
 //initialize quantum and pause;
 struct itimerval *quantum;
 struct itimerval *pauseTime;
+struct threadControlBlock *temp;
 
 
 
@@ -55,6 +56,7 @@ static void sched_stcf() {
 	while (!isEmpty(scheduleList)) {
 		//remove and obtain tcb at front of arraylist
 		struct threadControlBlock *currtcb = deleteFirst(scheduleList);
+		temp = currtcb;
 		//set timer to quantum
 		setitimer(ITIMER_VIRTUAL, quantum, NULL);
 		//context switch to that tcb's context from schedule context
@@ -159,12 +161,14 @@ int mypthread_yield() {
 
 	// change thread state from Running to Ready
 	// save context of this thread to its thread control block
-	// wwitch from thread context to scheduler context
+	// switch from thread context to scheduler context
 
-	// YOUR CODE HERE
 	//need timer interrupt
+	setitimer(ITIMER_VIRTUAL, pauseTime, NULL);
+	// save context of this thread to its thread control block
+	// switch from thread context to scheduler context
+	swapcontext(temp->tcb->context, schedContext);
 
-  //ualarm(0, 0);
 	return 0;
 };
 
@@ -172,14 +176,15 @@ int mypthread_yield() {
 void mypthread_exit(void *value_ptr) {
 	// Deallocated any dynamic memory created when starting this thread
 
-	// YOUR CODE HERE
-
-	in_library=1;
-  //ualarm(0, 0);
-
-	if (value_ptr !=NULL ) {
-		//save return value of thread
+	//We pause the timer.
+	setitimer(ITIMER_VIRTUAL, pauseTime, NULL);
+    //We set the tcb's output equal to the result of the thread, if the input is not NULL.
+	if (value_ptr !=NULL) {
+		temp->tcb->output = value.ptr;
 	}
+    //We will then context switch back to the scheduler.
+	setcontext(schedContext);
+	
 };
 
 
