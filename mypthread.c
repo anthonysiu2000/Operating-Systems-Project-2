@@ -138,7 +138,7 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 	     t->context->uc_stack.ss_flags = 0;
     	//uc link
       //uc stack
-    	makecontext(t->context, &(*function), 0);
+    	//makecontext(t->context, &(*function), 0);
 
 
     	// allocate space of stack for this thread to run
@@ -197,9 +197,9 @@ int mypthread_join(mypthread_t thread, void **value_ptr) {
 	// YOUR CODE HERE
 	in_library = 1;
 	if (value_ptr != NULL) {
-		thread->tcb->output = &value_ptr;
+		temp->output = &value_ptr;
 	}
-	free(thread);
+	free(temp);
 	return 0;
 };
 
