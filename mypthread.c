@@ -138,7 +138,7 @@ int mypthread_create(mypthread_t * thread, pthread_attr_t * attr,
 	     t->context->uc_stack.ss_flags = 0;
     	//uc link
       //uc stack
-    	makecontext(t->context, &function, 0);
+    	makecontext(t->context, &(*function), 0);
 
 
     	// allocate space of stack for this thread to run
@@ -167,7 +167,7 @@ int mypthread_yield() {
 	setitimer(ITIMER_VIRTUAL, pauseTime, NULL);
 	// save context of this thread to its thread control block
 	// switch from thread context to scheduler context
-	swapcontext(temp->tcb->context, schedContext);
+	swapcontext(temp->context, schedContext);
 
 	return 0;
 };
@@ -180,7 +180,7 @@ void mypthread_exit(void *value_ptr) {
 	setitimer(ITIMER_VIRTUAL, pauseTime, NULL);
     //We set the tcb's output equal to the result of the thread, if the input is not NULL.
 	if (value_ptr !=NULL) {
-		temp->tcb->output = value.ptr;
+		temp->output = value_ptr;
 	}
     //We will then context switch back to the scheduler.
 	setcontext(schedContext);
@@ -195,13 +195,11 @@ int mypthread_join(mypthread_t thread, void **value_ptr) {
 	// de-allocate any dynamic memory created by the joining thread
 
 	// YOUR CODE HERE
-
-  //ualarm(0, 0);
 	in_library = 1;
 	if (value_ptr != NULL) {
-		//pass back return value of thread
-		// *value_ptr = thread->retval;
+		thread->tcb->output = &value_ptr;
 	}
+	free(thread);
 	return 0;
 };
 
